@@ -1,0 +1,127 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Gabriel1\\source\\repos\\ProyectoFinal\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{81CB9EED-E4CA-4888-97CB-BBCBBCE91C6A}|ReservaButacas\\ReservaButacas.csproj|C:\\Users\\Gabriel1\\source\\repos\\ProyectoFinal\\reservabutacas\\archivobutacas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{81CB9EED-E4CA-4888-97CB-BBCBBCE91C6A}|ReservaButacas\\ReservaButacas.csproj|solutionrelative:reservabutacas\\archivobutacas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81CB9EED-E4CA-4888-97CB-BBCBBCE91C6A}|ReservaButacas\\ReservaButacas.csproj|c:\\users\\gabriel1\\source\\repos\\proyectofinal\\reservabutacas\\butaca.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{81CB9EED-E4CA-4888-97CB-BBCBBCE91C6A}|ReservaButacas\\ReservaButacas.csproj|solutionrelative:reservabutacas\\butaca.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81CB9EED-E4CA-4888-97CB-BBCBBCE91C6A}|ReservaButacas\\ReservaButacas.csproj|C:\\Users\\Gabriel1\\source\\repos\\ProyectoFinal\\reservabutacas\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{81CB9EED-E4CA-4888-97CB-BBCBBCE91C6A}|ReservaButacas\\ReservaButacas.csproj|solutionrelative:reservabutacas\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81CB9EED-E4CA-4888-97CB-BBCBBCE91C6A}|ReservaButacas\\ReservaButacas.csproj|c:\\users\\gabriel1\\source\\repos\\proyectofinal\\reservabutacas\\vistas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{81CB9EED-E4CA-4888-97CB-BBCBBCE91C6A}|ReservaButacas\\ReservaButacas.csproj|solutionrelative:reservabutacas\\vistas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81CB9EED-E4CA-4888-97CB-BBCBBCE91C6A}|ReservaButacas\\ReservaButacas.csproj|c:\\users\\gabriel1\\source\\repos\\proyectofinal\\reservabutacas\\menu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{81CB9EED-E4CA-4888-97CB-BBCBBCE91C6A}|ReservaButacas\\ReservaButacas.csproj|solutionrelative:reservabutacas\\menu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81CB9EED-E4CA-4888-97CB-BBCBBCE91C6A}|ReservaButacas\\ReservaButacas.csproj|c:\\users\\gabriel1\\source\\repos\\proyectofinal\\reservabutacas\\serviciobutacas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{81CB9EED-E4CA-4888-97CB-BBCBBCE91C6A}|ReservaButacas\\ReservaButacas.csproj|solutionrelative:reservabutacas\\serviciobutacas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Gabriel1\\source\\repos\\ProyectoFinal\\ReservaButacas\\Program.cs",
+              "RelativeDocumentMoniker": "ReservaButacas\\Program.cs",
+              "ToolTip": "C:\\Users\\Gabriel1\\source\\repos\\ProyectoFinal\\ReservaButacas\\Program.cs",
+              "RelativeToolTip": "ReservaButacas\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T02:29:33.556Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Butaca.cs",
+              "DocumentMoniker": "C:\\Users\\Gabriel1\\source\\repos\\ProyectoFinal\\ReservaButacas\\Butaca.cs",
+              "RelativeDocumentMoniker": "ReservaButacas\\Butaca.cs",
+              "ToolTip": "C:\\Users\\Gabriel1\\source\\repos\\ProyectoFinal\\ReservaButacas\\Butaca.cs",
+              "RelativeToolTip": "ReservaButacas\\Butaca.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T02:30:10.958Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ArchivoButacas.cs",
+              "DocumentMoniker": "C:\\Users\\Gabriel1\\source\\repos\\ProyectoFinal\\ReservaButacas\\ArchivoButacas.cs",
+              "RelativeDocumentMoniker": "ReservaButacas\\ArchivoButacas.cs",
+              "ToolTip": "C:\\Users\\Gabriel1\\source\\repos\\ProyectoFinal\\ReservaButacas\\ArchivoButacas.cs",
+              "RelativeToolTip": "ReservaButacas\\ArchivoButacas.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T02:33:47.173Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ServicioButacas.cs",
+              "DocumentMoniker": "C:\\Users\\Gabriel1\\source\\repos\\ProyectoFinal\\ReservaButacas\\ServicioButacas.cs",
+              "RelativeDocumentMoniker": "ReservaButacas\\ServicioButacas.cs",
+              "ToolTip": "C:\\Users\\Gabriel1\\source\\repos\\ProyectoFinal\\ReservaButacas\\ServicioButacas.cs",
+              "RelativeToolTip": "ReservaButacas\\ServicioButacas.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T02:52:39.285Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Menu.cs",
+              "DocumentMoniker": "C:\\Users\\Gabriel1\\source\\repos\\ProyectoFinal\\ReservaButacas\\Menu.cs",
+              "RelativeDocumentMoniker": "ReservaButacas\\Menu.cs",
+              "ToolTip": "C:\\Users\\Gabriel1\\source\\repos\\ProyectoFinal\\ReservaButacas\\Menu.cs",
+              "RelativeToolTip": "ReservaButacas\\Menu.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T02:53:42.928Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Vistas.cs",
+              "DocumentMoniker": "C:\\Users\\Gabriel1\\source\\repos\\ProyectoFinal\\ReservaButacas\\Vistas.cs",
+              "RelativeDocumentMoniker": "ReservaButacas\\Vistas.cs",
+              "ToolTip": "C:\\Users\\Gabriel1\\source\\repos\\ProyectoFinal\\ReservaButacas\\Vistas.cs",
+              "RelativeToolTip": "ReservaButacas\\Vistas.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T02:55:08.105Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
