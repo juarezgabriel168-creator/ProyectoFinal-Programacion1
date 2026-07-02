@@ -8,14 +8,16 @@ namespace ReservaButacas
 {
     static class ServicioButacas
     {
-        public static bool ValidarFila(char fila)
+        public static bool ValidarFila(char fila, Configuracion config)
         {
-            return char.ToUpper(fila) >= 'A' && char.ToUpper(fila) <= 'Z';
+            char filaNormalizada = char.ToUpper(fila);
+            return filaNormalizada >= config.FilaMinima &&
+                   filaNormalizada <= config.FilaMaxima;
         }
 
-        public static bool ValidarNumero(int numero)
+        public static bool ValidarNumero(int numero, Configuracion config)
         {
-            return numero > 0;
+            return numero >= 1 && numero <= config.AsientosPorFila;
         }
 
         public static bool ValidarNombre(string nombre)
@@ -23,10 +25,6 @@ namespace ReservaButacas
             return !string.IsNullOrWhiteSpace(nombre);
         }
 
-        public static bool ValidarPrecio(double precio)
-        {
-            return precio > 0;
-        }
 
         public static bool ExisteDuplicado(List<Butaca> butacas,
                                            char fila, int numero)
@@ -52,12 +50,16 @@ namespace ReservaButacas
             return null;
         }
 
-        public static bool Reservar(List<Butaca> butacas, char fila,
-                                    int numero, string nombre,
-                                    double precio, bool esVip)
+        public static bool Reservar(List<Butaca> butacas,
+                                    char fila, int numero,
+                                    string nombre,
+                                    Configuracion config)
         {
             if (ExisteDuplicado(butacas, fila, numero))
                 return false;
+
+            bool esVip = config.EsFilaVip(fila);
+            double precio = esVip ? config.PrecioVip : config.PrecioNormal;
 
             butacas.Add(new Butaca(fila, numero, nombre, precio, esVip));
             return true;
@@ -65,7 +67,8 @@ namespace ReservaButacas
 
         public static bool Reubicar(List<Butaca> butacas,
                                     char filaActual, int numeroActual,
-                                    char filaNueva, int numeroNuevo)
+                                    char filaNueva, int numeroNuevo,
+                                    Configuracion config)
         {
             Butaca butaca = BuscarButaca(butacas, filaActual, numeroActual);
 
@@ -80,6 +83,9 @@ namespace ReservaButacas
 
             butaca.Fila = char.ToUpper(filaNueva);
             butaca.Numero = numeroNuevo;
+            butaca.EsVip = config.EsFilaVip(filaNueva);
+            butaca.Precio = butaca.EsVip ? config.PrecioVip : config.PrecioNormal;
+
             return true;
         }
 

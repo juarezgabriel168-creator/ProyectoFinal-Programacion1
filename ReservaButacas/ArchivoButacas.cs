@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 namespace ReservaButacas
 {
-    internal class ArchivoButacas
+    static class ArchivoButacas
     {
         private const string RUTA = "butacas.txt";
 
@@ -15,7 +15,10 @@ namespace ReservaButacas
             List<Butaca> butacas = new List<Butaca>();
 
             if (!File.Exists(RUTA))
+            {
+                File.WriteAllText(RUTA, string.Empty);
                 return butacas;
+            }
 
             try
             {
@@ -23,7 +26,6 @@ namespace ReservaButacas
 
                 foreach (string linea in lineas)
                 {
-
                     if (string.IsNullOrWhiteSpace(linea))
                         continue;
 

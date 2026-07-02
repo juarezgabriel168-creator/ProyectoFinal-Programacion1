@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ReservaButacas
 {
-    internal class Butaca
+    class Butaca
     {
         public char Fila { get; set; }
         public int Numero { get; set; }

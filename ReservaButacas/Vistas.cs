@@ -6,22 +6,25 @@ namespace ReservaButacas
 {
     static class Vistas
     {
-        private static char LeerFila(string mensaje)
+        private static char LeerFila(string mensaje, Configuracion config)
         {
-            char fila;
             while (true)
             {
                 Console.Write(mensaje);
                 string entrada = Console.ReadLine().ToUpper();
 
-                if (entrada.Length == 1 && ServicioButacas.ValidarFila(entrada[0]))
+                if (entrada.Length == 1 &&
+                    ServicioButacas.ValidarFila(entrada[0], config))
                     return char.ToUpper(entrada[0]);
 
-                Console.WriteLine("  Fila no válida. Ingrese una letra entre A y Z.");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"  ✗ Fila no válida. Ingrese entre " +
+                                   $"{config.FilaMinima} y {config.FilaMaxima}.");
+                Console.ResetColor();
             }
         }
 
-        private static int LeerNumero(string mensaje)
+        private static int LeerNumero(string mensaje, Configuracion config)
         {
             int numero;
             while (true)
@@ -30,10 +33,13 @@ namespace ReservaButacas
                 string entrada = Console.ReadLine();
 
                 if (int.TryParse(entrada, out numero) &&
-                    ServicioButacas.ValidarNumero(numero))
+                    ServicioButacas.ValidarNumero(numero, config))
                     return numero;
 
-                Console.WriteLine("  Número no válido. Ingrese un número positivo.");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"  ✗ Número no válido. Ingrese entre " +
+                                   $"1 y {config.AsientosPorFila}.");
+                Console.ResetColor();
             }
         }
 
@@ -47,23 +53,9 @@ namespace ReservaButacas
                 if (ServicioButacas.ValidarNombre(nombre))
                     return nombre;
 
-                Console.WriteLine("  El nombre no puede estar vacío.");
-            }
-        }
-
-        private static double LeerPrecio(string mensaje)
-        {
-            double precio;
-            while (true)
-            {
-                Console.Write(mensaje);
-                string entrada = Console.ReadLine();
-
-                if (double.TryParse(entrada, out precio) &&
-                    ServicioButacas.ValidarPrecio(precio))
-                    return precio;
-
-                Console.WriteLine("  Precio no válido. Ingrese un valor mayor a cero.");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("  ✗ El nombre no puede estar vacío.");
+                Console.ResetColor();
             }
         }
 
@@ -77,95 +69,135 @@ namespace ReservaButacas
                 if (entrada == "S") return true;
                 if (entrada == "N") return false;
 
-                Console.WriteLine("  Ingrese S para sí o N para no.");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("  ✗ Ingrese S o N.");
+                Console.ResetColor();
             }
         }
 
-        public static void VistaReservar(List<Butaca> butacas)
+        private static string CentrarTexto(string texto, int ancho)
+        {
+            if (texto.Length >= ancho) return texto;
+            int izq = (ancho - texto.Length) / 2;
+            return texto.PadLeft(texto.Length + izq).PadRight(ancho);
+        }
+
+        public static void VistaReservar(List<Butaca> butacas,
+                                         Configuracion config)
         {
             Console.Clear();
             Console.WriteLine("  ── RESERVAR ASIENTO ──────────────────");
             Console.WriteLine();
 
-            char fila = LeerFila("  Ingrese fila (A-Z): ");
-            int numero = LeerNumero("  Ingrese número de asiento: ");
-            string nombre = LeerNombre("  Ingrese nombre del espectador: ");
-            double precio = LeerPrecio("  Ingrese precio: $");
-            bool esVip = LeerConfirmacion("  ¿Es asiento VIP? (S/N): ");
+            MostrarZonas(config);
+            Console.WriteLine();
 
-            bool exito = ServicioButacas.Reservar(butacas, fila, numero,
-                                                   nombre, precio, esVip);
+            char fila = LeerFila("  Ingrese fila: ", config);
+            int numero = LeerNumero("  Ingrese número de asiento: ", config);
+
+            bool esVip = config.EsFilaVip(fila);
+            double precio = esVip ? config.PrecioVip : config.PrecioNormal;
+
+            Console.WriteLine();
+            Console.WriteLine($"  Tipo de asiento : {(esVip ? "VIP" : "Normal")}");
+            Console.WriteLine($"  Precio asignado : ${precio:F2}");
+            Console.WriteLine();
+
+            string nombre = LeerNombre("  Nombre del espectador: ");
+
+            bool exito = ServicioButacas.Reservar(
+                butacas, fila, numero, nombre, config);
+
+            Console.WriteLine();
             if (exito)
             {
                 ArchivoButacas.GuardarButacas(butacas);
-                Console.WriteLine();
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"  ✓ Reserva creada para {nombre} en {char.ToUpper(fila)}-{numero}.");
-                Console.ResetColor();
+                Console.WriteLine($"  ✓ Reserva creada para {nombre} en " +
+                                   $"{char.ToUpper(fila)}-{numero} " +
+                                   $"({(esVip ? "VIP" : "Normal")}, ${precio:F2}).");
             }
             else
             {
-                Console.WriteLine();
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"  ✗ El asiento {char.ToUpper(fila)}-{numero} ya está ocupado.");
-                Console.ResetColor();
+                Console.WriteLine($"  ✗ El asiento {char.ToUpper(fila)}-{numero} " +
+                                   $"ya está ocupado.");
             }
+            Console.ResetColor();
         }
 
-        public static void VistaReubicar(List<Butaca> butacas)
+        public static void VistaReubicar(List<Butaca> butacas,
+                                          Configuracion config)
         {
             Console.Clear();
             Console.WriteLine("  ── REUBICAR ESPECTADOR ───────────────");
             Console.WriteLine();
 
             Console.WriteLine("  Asiento actual:");
-            char filaActual = LeerFila("  Ingrese fila actual (A-Z): ");
-            int numeroActual = LeerNumero("  Ingrese número actual: ");
+            char filaActual = LeerFila("  Fila actual: ", config);
+            int numeroActual = LeerNumero("  Número actual: ", config);
 
-            Butaca butaca = ServicioButacas.BuscarButaca(butacas,
-                                                          filaActual, numeroActual);
+            Butaca butaca = ServicioButacas.BuscarButaca(
+                butacas, filaActual, numeroActual);
+
             if (butaca == null)
             {
                 Console.WriteLine();
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"  ✗ No existe reserva en {char.ToUpper(filaActual)}-{numeroActual}.");
+                Console.WriteLine($"  ✗ No existe reserva en " +
+                                   $"{char.ToUpper(filaActual)}-{numeroActual}.");
                 Console.ResetColor();
                 return;
             }
 
-            Console.WriteLine($"  Espectador encontrado: {butaca.NombreEspectador}");
+            Console.WriteLine($"  Espectador: {butaca.NombreEspectador}");
             Console.WriteLine();
-            Console.WriteLine("  Nuevo asiento:");
-            char filaNueva = LeerFila("  Ingrese nueva fila (A-Z): ");
-            int numeroNuevo = LeerNumero("  Ingrese nuevo número: ");
 
-            bool exito = ServicioButacas.Reubicar(butacas, filaActual, numeroActual,
-                                                   filaNueva, numeroNuevo);
+            MostrarZonas(config);
+            Console.WriteLine();
+
+            Console.WriteLine("  Nuevo asiento:");
+            char filaNueva = LeerFila("  Nueva fila: ", config);
+            int numeroNuevo = LeerNumero("  Nuevo número: ", config);
+
+            bool nuevoEsVip = config.EsFilaVip(filaNueva);
+            double nuevoPrecio = nuevoEsVip ? config.PrecioVip : config.PrecioNormal;
+
+            Console.WriteLine();
+            Console.WriteLine($"  Nuevo tipo   : {(nuevoEsVip ? "VIP" : "Normal")}");
+            Console.WriteLine($"  Nuevo precio : ${nuevoPrecio:F2}");
+            Console.WriteLine();
+
+            bool exito = ServicioButacas.Reubicar(
+                butacas, filaActual, numeroActual,
+                filaNueva, numeroNuevo, config);
+
             if (exito)
             {
                 ArchivoButacas.GuardarButacas(butacas);
-                Console.WriteLine();
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"  ✓ {butaca.NombreEspectador} reubicado a {char.ToUpper(filaNueva)}-{numeroNuevo}.");
-                Console.ResetColor();
+                Console.WriteLine($"  ✓ {butaca.NombreEspectador} reubicado a " +
+                                   $"{char.ToUpper(filaNueva)}-{numeroNuevo} " +
+                                   $"({(nuevoEsVip ? "VIP" : "Normal")}, ${nuevoPrecio:F2}).");
             }
             else
             {
-                Console.WriteLine();
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"  ✗ El asiento {char.ToUpper(filaNueva)}-{numeroNuevo} ya está ocupado.");
-                Console.ResetColor();
+                Console.WriteLine($"  ✗ El asiento {char.ToUpper(filaNueva)}-{numeroNuevo} " +
+                                   $"ya está ocupado.");
             }
+            Console.ResetColor();
         }
 
-        public static void VistaCancelar(List<Butaca> butacas)
+        public static void VistaCancelar(List<Butaca> butacas,
+                                          Configuracion config)
         {
             Console.Clear();
             Console.WriteLine("  ── CANCELAR RESERVA ──────────────────");
             Console.WriteLine();
 
-            char fila = LeerFila("  Ingrese fila (A-Z): ");
-            int numero = LeerNumero("  Ingrese número de asiento: ");
+            char fila = LeerFila("  Fila: ", config);
+            int numero = LeerNumero("  Número de asiento: ", config);
 
             Butaca butaca = ServicioButacas.BuscarButaca(butacas, fila, numero);
 
@@ -173,19 +205,21 @@ namespace ReservaButacas
             {
                 Console.WriteLine();
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"  ✗ No existe reserva en {char.ToUpper(fila)}-{numero}.");
+                Console.WriteLine($"  ✗ No existe reserva en " +
+                                   $"{char.ToUpper(fila)}-{numero}.");
                 Console.ResetColor();
                 return;
             }
 
             Console.WriteLine();
-            Console.WriteLine($"  Espectador: {butaca.NombreEspectador}");
-            Console.WriteLine($"  Asiento:    {butaca.Fila}-{butaca.Numero}");
-            Console.WriteLine($"  Precio:     ${butaca.Precio:F2}");
-            Console.WriteLine($"  VIP:        {(butaca.EsVip ? "Sí" : "No")}");
+            Console.WriteLine($"  Espectador : {butaca.NombreEspectador}");
+            Console.WriteLine($"  Asiento    : {butaca.Fila}-{butaca.Numero}");
+            Console.WriteLine($"  Tipo       : {(butaca.EsVip ? "VIP" : "Normal")}");
+            Console.WriteLine($"  Precio     : ${butaca.Precio:F2}");
             Console.WriteLine();
 
-            bool confirmar = LeerConfirmacion("  ¿Confirma la cancelación? (S/N): ");
+            bool confirmar = LeerConfirmacion(
+                "  ¿Confirma la cancelación? (S/N): ");
 
             if (!confirmar)
             {
@@ -201,19 +235,23 @@ namespace ReservaButacas
                 ArchivoButacas.GuardarButacas(butacas);
                 Console.WriteLine();
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"  ✓ Reserva de {butaca.NombreEspectador} cancelada correctamente.");
+                Console.WriteLine($"  ✓ Reserva de {butaca.NombreEspectador} " +
+                                   $"cancelada correctamente.");
                 Console.ResetColor();
             }
         }
 
-        public static void VistaMapa(List<Butaca> butacas)
+        public static void VistaMapa(List<Butaca> butacas,
+                                      Configuracion config)
         {
             Console.Clear();
             Console.WriteLine("  ── MAPA DE LA SALA ───────────────────");
             Console.WriteLine();
 
-            const int FILAS = 6;
-            const int COLUMNAS = 10;
+            char filaInicio = config.FilaMinima;
+            char filaFin = config.FilaMaxima;
+            int colInicio = 1;
+            int colFin = config.AsientosPorFila;
 
             Console.Write("  Leyenda:  ");
             Console.ForegroundColor = ConsoleColor.Green;
@@ -227,30 +265,29 @@ namespace ReservaButacas
             Console.WriteLine();
 
             Console.Write("       ");
-            for (int col = 1; col <= COLUMNAS; col++)
+            for (int col = colInicio; col <= colFin; col++)
                 Console.Write($"  {col,2} ");
             Console.WriteLine();
             Console.WriteLine();
 
-            for (int f = 0; f < FILAS; f++)
+            for (char letraFila = filaInicio; letraFila <= filaFin; letraFila++)
             {
-                char letraFila = (char)('A' + f);
+                bool filaEsVip = config.EsFilaVip(letraFila);
+                string etiqueta = filaEsVip ? $"{letraFila}(V)" : $"{letraFila}    ";
+                Console.Write($"  {etiqueta} ");
 
-                Console.Write($"   {letraFila}   ");
-
-                for (int col = 1; col <= COLUMNAS; col++)
+                for (int col = colInicio; col <= colFin; col++)
                 {
-                    Butaca butaca = ServicioButacas.BuscarButaca(butacas,
-                                                                  letraFila, col);
+                    Butaca butaca = ServicioButacas.BuscarButaca(
+                        butacas, letraFila, col);
+
                     if (butaca == null)
                     {
-
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.Write("[ ] ");
                     }
                     else if (butaca.EsVip)
                     {
-
                         Console.ForegroundColor = ConsoleColor.Yellow;
                         Console.Write("[V] ");
                     }
@@ -259,41 +296,64 @@ namespace ReservaButacas
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.Write("[X] ");
                     }
-
                     Console.ResetColor();
                 }
-
                 Console.WriteLine();
             }
 
             Console.WriteLine();
 
-            Console.WriteLine("  " + new string('─', 44));
-            Console.WriteLine("  " + CentrarTexto("PANTALLA / ESCENARIO", 44));
-            Console.WriteLine("  " + new string('─', 44));
+            int anchoMapa = 44;
+            Console.WriteLine("  " + new string('─', anchoMapa));
+            Console.WriteLine("  " + CentrarTexto("PANTALLA / ESCENARIO", anchoMapa));
+            Console.WriteLine("  " + new string('─', anchoMapa));
             Console.WriteLine();
 
-            int totalAsientos = FILAS * COLUMNAS;
+            int totalAsientos = config.CantidadFilas * config.AsientosPorFila;
             int ocupados = butacas.Count;
             int libres = totalAsientos - ocupados;
-            int vip = 0;
+            int vipOcupados = 0;
 
             foreach (Butaca b in butacas)
-                if (b.EsVip) vip++;
+                if (b.EsVip) vipOcupados++;
 
             Console.WriteLine($"  Total de asientos : {totalAsientos}");
             Console.WriteLine($"  Ocupados          : {ocupados}");
             Console.WriteLine($"  Libres            : {libres}");
-            Console.WriteLine($"  VIP ocupados      : {vip}");
+            Console.WriteLine($"  VIP ocupados      : {vipOcupados}");
+            Console.WriteLine();
+
+            Console.WriteLine($"  Precio normal     : ${config.PrecioNormal:F2}");
+            Console.WriteLine($"  Precio VIP        : ${config.PrecioVip:F2}");
+
+            if (config.FilaInicioVip < config.CantidadFilas)
+                Console.WriteLine($"  Zona VIP          : fila {config.FilaInicioVipChar} " +
+                                   $"a {config.FilaMaxima}");
+            else
+                Console.WriteLine("  Zona VIP          : no configurada");
         }
 
-        private static string CentrarTexto(string texto, int ancho)
+        private static void MostrarZonas(Configuracion config)
         {
-            if (texto.Length >= ancho)
-                return texto;
+            Console.WriteLine("  Zonas de precio:");
+            Console.ForegroundColor = ConsoleColor.White;
 
-            int espaciosIzq = (ancho - texto.Length) / 2;
-            return texto.PadLeft(texto.Length + espaciosIzq).PadRight(ancho);
+            if (config.FilaInicioVip >= config.CantidadFilas)
+            {
+                Console.WriteLine($"  • Normal (A-{config.FilaMaxima}): " +
+                                   $"${config.PrecioNormal:F2}");
+            }
+            else
+            {
+                Console.WriteLine($"  • Normal  " +
+                                   $"(A-{(char)('A' + config.FilaInicioVip - 1)})" +
+                                   $": ${config.PrecioNormal:F2}");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine($"  • VIP     " +
+                                   $"({config.FilaInicioVipChar}-{config.FilaMaxima})" +
+                                   $": ${config.PrecioVip:F2}");
+            }
+            Console.ResetColor();
         }
     }
 }

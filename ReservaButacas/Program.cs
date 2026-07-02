@@ -10,11 +10,11 @@ namespace ReservaButacas
     {
         static void Main(string[] args)
         {
-            
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             Console.Title = "Sistema de Reserva de Butacas";
 
-            
+            Configuracion config = VistaConfiguracion.ObtenerConfiguracion();
+
             Console.Clear();
             Console.WriteLine();
             Console.WriteLine("  ╔══════════════════════════════════════╗");
@@ -23,20 +23,27 @@ namespace ReservaButacas
             Console.WriteLine("  ╚══════════════════════════════════════╝");
             Console.WriteLine();
 
-            
+            bool archivoExistia = System.IO.File.Exists("butacas.txt");
+
             List<Butaca> butacas = ArchivoButacas.CargarButacas();
 
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"  ✓ {butacas.Count} reserva(s) cargada(s) correctamente.");
+            if (archivoExistia)
+            {
+                Console.WriteLine($"  ✓ Archivo butacas.txt encontrado.");
+                Console.WriteLine($"  ✓ {butacas.Count} reserva(s) cargada(s) correctamente.");
+            }
+            else
+            {
+                Console.WriteLine("  ✓ Archivo butacas.txt creado. No hay reservas previas.");
+            }
             Console.ResetColor();
             Console.WriteLine();
             Console.Write("  Presione una tecla para continuar...");
             Console.ReadKey();
 
-            
-            Menu.Ejecutar(butacas);
+            Menu.Ejecutar(butacas, config);
 
-            
             Console.Clear();
             Console.WriteLine();
             Console.WriteLine("  ╔══════════════════════════════════════╗");

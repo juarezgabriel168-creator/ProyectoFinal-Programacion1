@@ -8,7 +8,7 @@ namespace ReservaButacas
 {
     static class Menu
     {
-        public static void MostrarMenu()
+        public static void MostrarMenu(Configuracion config)
         {
             Console.WriteLine();
             Console.WriteLine("╔══════════════════════════════════════╗");
@@ -20,48 +20,54 @@ namespace ReservaButacas
             Console.WriteLine("║  4. Cancelar reserva                 ║");
             Console.WriteLine("║  0. Salir                            ║");
             Console.WriteLine("╚══════════════════════════════════════╝");
+            Console.WriteLine($"   Sala: {config.CantidadFilas} filas × " +
+                               $"{config.AsientosPorFila} asientos  |  " +
+                               $"Normal ${config.PrecioNormal:F2}  " +
+                               $"VIP ${config.PrecioVip:F2}");
             Console.Write("   Ingrese una opción: ");
         }
 
         public static int LeerOpcion()
         {
             int opcion;
-
             while (true)
             {
                 string entrada = Console.ReadLine();
 
-                if (int.TryParse(entrada, out opcion) && opcion >= 0 && opcion <= 4)
+                if (int.TryParse(entrada, out opcion) &&
+                    opcion >= Constantes.OPCION_MIN &&
+                    opcion <= Constantes.OPCION_MAX)
                     return opcion;
 
-                Console.WriteLine("  Opción no válida. Ingrese un número entre 0 y 4.");
+                Console.WriteLine($"  Opción no válida. Ingrese entre " +
+                                   $"{Constantes.OPCION_MIN} y {Constantes.OPCION_MAX}.");
                 Console.Write("  Ingrese una opción: ");
             }
         }
-       
-        public static void Ejecutar(List<Butaca> butacas)
+
+        public static void Ejecutar(List<Butaca> butacas, Configuracion config)
         {
             int opcion;
 
             do
             {
                 Console.Clear();
-                MostrarMenu();
+                MostrarMenu(config);
                 opcion = LeerOpcion();
 
                 switch (opcion)
                 {
                     case 1:
-                        Vistas.VistaReservar(butacas);
+                        Vistas.VistaReservar(butacas, config);
                         break;
                     case 2:
-                        Vistas.VistaMapa(butacas);
+                        Vistas.VistaMapa(butacas, config);
                         break;
                     case 3:
-                        Vistas.VistaReubicar(butacas);
+                        Vistas.VistaReubicar(butacas, config);
                         break;
                     case 4:
-                        Vistas.VistaCancelar(butacas);
+                        Vistas.VistaCancelar(butacas, config);
                         break;
                     case 0:
                         break;

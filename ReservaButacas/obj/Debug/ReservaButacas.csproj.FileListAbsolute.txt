@@ -1,0 +1,7 @@
+C:\Users\Gabriel1\source\repos\ProyectoFinal\ReservaButacas\bin\Debug\ReservaButacas.exe.config
+C:\Users\Gabriel1\source\repos\ProyectoFinal\ReservaButacas\bin\Debug\ReservaButacas.exe
+C:\Users\Gabriel1\source\repos\ProyectoFinal\ReservaButacas\bin\Debug\ReservaButacas.pdb
+C:\Users\Gabriel1\source\repos\ProyectoFinal\ReservaButacas\obj\Debug\ReservaButacas.csproj.AssemblyReference.cache
+C:\Users\Gabriel1\source\repos\ProyectoFinal\ReservaButacas\obj\Debug\ReservaButacas.csproj.CoreCompileInputs.cache
+C:\Users\Gabriel1\source\repos\ProyectoFinal\ReservaButacas\obj\Debug\ReservaButacas.exe
+C:\Users\Gabriel1\source\repos\ProyectoFinal\ReservaButacas\obj\Debug\ReservaButacas.pdb
