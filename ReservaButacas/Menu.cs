@@ -20,10 +20,7 @@ namespace ReservaButacas
             Console.WriteLine("║  4. Cancelar reserva                 ║");
             Console.WriteLine("║  0. Salir                            ║");
             Console.WriteLine("╚══════════════════════════════════════╝");
-            Console.WriteLine($"   Sala: {config.CantidadFilas} filas × " +
-                               $"{config.AsientosPorFila} asientos  |  " +
-                               $"Normal ${config.PrecioNormal:F2}  " +
-                               $"VIP ${config.PrecioVip:F2}");
+            Console.WriteLine($"   Sala: {config.CantidadFilas} filas × " + $"{config.AsientosPorFila} asientos  |  " + $"Normal ${config.PrecioNormal:F2}  " + $"VIP ${config.PrecioVip:F2}");
             Console.Write("   Ingrese una opción: ");
         }
 
@@ -39,8 +36,7 @@ namespace ReservaButacas
                     opcion <= Constantes.OPCION_MAX)
                     return opcion;
 
-                Console.WriteLine($"  Opción no válida. Ingrese entre " +
-                                   $"{Constantes.OPCION_MIN} y {Constantes.OPCION_MAX}.");
+                Console.WriteLine($"  Opción no válida. Ingrese entre " + $"{Constantes.OPCION_MIN} y {Constantes.OPCION_MAX}.");
                 Console.Write("  Ingrese una opción: ");
             }
         }

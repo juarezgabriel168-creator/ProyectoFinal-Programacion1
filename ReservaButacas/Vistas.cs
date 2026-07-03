@@ -1,5 +1,4 @@
-﻿// Vistas/Vistas.cs
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace ReservaButacas
@@ -19,8 +18,7 @@ namespace ReservaButacas
                     return char.ToUpper(entrada[0]);
 
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"  ✗ Fila no válida. Ingrese entre " +
-                                   $"{config.FilaMinima} y {config.FilaMaxima}.");
+                Console.WriteLine($"  ✗ Fila no válida. Ingrese entre " + $"{config.FilaMinima} y {config.FilaMaxima}.");
                 Console.ResetColor();
             }
         }
@@ -38,8 +36,7 @@ namespace ReservaButacas
                     return numero;
 
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"  ✗ Número no válido. Ingrese entre " +
-                                   $"1 y {config.AsientosPorFila}.");
+                Console.WriteLine($"  ✗ Número no válido. Ingrese entre " + $"1 y {config.AsientosPorFila}.");
                 Console.ResetColor();
             }
         }
@@ -83,8 +80,7 @@ namespace ReservaButacas
             return texto.PadLeft(texto.Length + izq).PadRight(ancho);
         }
 
-        public static void VistaReservar(List<Butaca> butacas,
-                                         Configuracion config)
+        public static void VistaReservar(List<Butaca> butacas, Configuracion config)
         {
             Console.Clear();
             Console.WriteLine("  ── RESERVAR ASIENTO ──────────────────");
@@ -114,21 +110,17 @@ namespace ReservaButacas
             {
                 ArchivoButacas.GuardarButacas(butacas);
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"  ✓ Reserva creada para {nombre} en " +
-                                   $"{char.ToUpper(fila)}-{numero} " +
-                                   $"({(esVip ? "VIP" : "Normal")}, ${precio:F2}).");
+                Console.WriteLine($"  ✓ Reserva creada para {nombre} en " + $"{char.ToUpper(fila)}-{numero} " + $"({(esVip ? "VIP" : "Normal")}, ${precio:F2}).");
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"  ✗ El asiento {char.ToUpper(fila)}-{numero} " +
-                                   $"ya está ocupado.");
+                Console.WriteLine($"  ✗ El asiento {char.ToUpper(fila)}-{numero} " + $"ya está ocupado.");
             }
             Console.ResetColor();
         }
 
-        public static void VistaReubicar(List<Butaca> butacas,
-                                          Configuracion config)
+        public static void VistaReubicar(List<Butaca> butacas, Configuracion config)
         {
             Console.Clear();
             Console.WriteLine("  ── REUBICAR ESPECTADOR ───────────────");
@@ -150,8 +142,7 @@ namespace ReservaButacas
             {
                 Console.WriteLine();
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"  ✗ No existe reserva en " +
-                                   $"{char.ToUpper(filaActual)}-{numeroActual}.");
+                Console.WriteLine($"  ✗ No existe reserva en " + $"{char.ToUpper(filaActual)}-{numeroActual}.");
                 Console.ResetColor();
                 return;
             }
@@ -182,21 +173,17 @@ namespace ReservaButacas
             {
                 ArchivoButacas.GuardarButacas(butacas);
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"  ✓ {butaca.NombreEspectador} reubicado a " +
-                                   $"{char.ToUpper(filaNueva)}-{numeroNuevo} " +
-                                   $"({(nuevoEsVip ? "VIP" : "Normal")}, ${nuevoPrecio:F2}).");
+                Console.WriteLine($"  ✓ {butaca.NombreEspectador} reubicado a " + $"{char.ToUpper(filaNueva)}-{numeroNuevo} " + $"({(nuevoEsVip ? "VIP" : "Normal")}, ${nuevoPrecio:F2}).");
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"  ✗ El asiento {char.ToUpper(filaNueva)}-{numeroNuevo} " +
-                                   $"ya está ocupado.");
+                Console.WriteLine($"  ✗ El asiento {char.ToUpper(filaNueva)}-{numeroNuevo} " + $"ya está ocupado.");
             }
             Console.ResetColor();
         }
 
-        public static void VistaCancelar(List<Butaca> butacas,
-                                          Configuracion config)
+        public static void VistaCancelar(List<Butaca> butacas, Configuracion config)
         {
             Console.Clear();
             Console.WriteLine("  ── CANCELAR RESERVA ──────────────────");
@@ -229,8 +216,7 @@ namespace ReservaButacas
             Console.WriteLine($"  Precio     : ${butaca.Precio:F2}");
             Console.WriteLine();
 
-            bool confirmar = LeerConfirmacion(
-                "  ¿Confirma la cancelación? (S/N): ");
+            bool confirmar = LeerConfirmacion("  ¿Confirma la cancelación? (S/N): ");
 
             if (!confirmar)
             {
@@ -246,8 +232,7 @@ namespace ReservaButacas
                 ArchivoButacas.GuardarButacas(butacas);
                 Console.WriteLine();
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"  ✓ Reserva de {butaca.NombreEspectador} " +
-                                   $"cancelada correctamente.");
+                Console.WriteLine($"  ✓ Reserva de {butaca.NombreEspectador} " + $"cancelada correctamente.");
                 Console.ResetColor();
             }
         }
@@ -338,8 +323,7 @@ namespace ReservaButacas
             Console.WriteLine($"  Precio VIP        : ${config.PrecioVip:F2}");
 
             if (config.FilaInicioVip < config.CantidadFilas)
-                Console.WriteLine($"  Zona VIP          : fila {config.FilaInicioVipChar} " +
-                                   $"a {config.FilaMaxima}");
+                Console.WriteLine($"  Zona VIP          : fila {config.FilaInicioVipChar} " + $"a {config.FilaMaxima}");
             else
                 Console.WriteLine("  Zona VIP          : no configurada");
         }
@@ -366,9 +350,7 @@ namespace ReservaButacas
             foreach (Butaca b in butacas)
             {
                 string asiento = $"{b.Fila}-{b.Numero}".PadRight(6);
-                string nombre = b.NombreEspectador.Length > 28
-                                    ? b.NombreEspectador.Substring(0, 28)
-                                    : b.NombreEspectador.PadRight(28);
+                string nombre = b.NombreEspectador.Length > 28 ? b.NombreEspectador.Substring(0, 28) : b.NombreEspectador.PadRight(28);
                 string tipo = (b.EsVip ? "VIP" : "Normal").PadRight(8);
                 string precio = $"${b.Precio:F2}".PadRight(8);
 
@@ -386,18 +368,13 @@ namespace ReservaButacas
 
             if (config.FilaInicioVip >= config.CantidadFilas)
             {
-                Console.WriteLine($"  • Normal (A-{config.FilaMaxima}): " +
-                                   $"${config.PrecioNormal:F2}");
+                Console.WriteLine($"  • Normal (A-{config.FilaMaxima}): " + $"${config.PrecioNormal:F2}");
             }
             else
             {
-                Console.WriteLine($"  • Normal  " +
-                                   $"(A-{(char)('A' + config.FilaInicioVip - 1)})" +
-                                   $": ${config.PrecioNormal:F2}");
+                Console.WriteLine($"  • Normal  " + $"(A-{(char)('A' + config.FilaInicioVip - 1)})" + $": ${config.PrecioNormal:F2}");
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"  • VIP     " +
-                                   $"({config.FilaInicioVipChar}-{config.FilaMaxima})" +
-                                   $": ${config.PrecioVip:F2}");
+                Console.WriteLine($"  • VIP     " + $"({config.FilaInicioVipChar}-{config.FilaMaxima})" + $": ${config.PrecioVip:F2}");
             }
             Console.ResetColor();
         }

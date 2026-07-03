@@ -26,8 +26,7 @@ namespace ReservaButacas
         }
 
 
-        public static bool ExisteDuplicado(List<Butaca> butacas,
-                                           char fila, int numero)
+        public static bool ExisteDuplicado(List<Butaca> butacas, char fila, int numero)
         {
             char filaNormalizada = char.ToUpper(fila);
             foreach (Butaca b in butacas)
@@ -38,8 +37,7 @@ namespace ReservaButacas
             return false;
         }
 
-        public static Butaca BuscarButaca(List<Butaca> butacas,
-                                          char fila, int numero)
+        public static Butaca BuscarButaca(List<Butaca> butacas, char fila, int numero)
         {
             char filaNormalizada = char.ToUpper(fila);
             foreach (Butaca b in butacas)
@@ -50,10 +48,7 @@ namespace ReservaButacas
             return null;
         }
 
-        public static bool Reservar(List<Butaca> butacas,
-                                    char fila, int numero,
-                                    string nombre,
-                                    Configuracion config)
+        public static bool Reservar(List<Butaca> butacas, char fila, int numero, string nombre, Configuracion config)
         {
             if (ExisteDuplicado(butacas, fila, numero))
                 return false;
@@ -65,18 +60,14 @@ namespace ReservaButacas
             return true;
         }
 
-        public static bool Reubicar(List<Butaca> butacas,
-                                    char filaActual, int numeroActual,
-                                    char filaNueva, int numeroNuevo,
-                                    Configuracion config)
+        public static bool Reubicar(List<Butaca> butacas, char filaActual, int numeroActual, char filaNueva, int numeroNuevo, Configuracion config)
         {
             Butaca butaca = BuscarButaca(butacas, filaActual, numeroActual);
 
             if (butaca == null)
                 return false;
 
-            bool mismoAsiento = char.ToUpper(filaActual) == char.ToUpper(filaNueva)
-                                && numeroActual == numeroNuevo;
+            bool mismoAsiento = char.ToUpper(filaActual) == char.ToUpper(filaNueva) && numeroActual == numeroNuevo;
 
             if (!mismoAsiento && ExisteDuplicado(butacas, filaNueva, numeroNuevo))
                 return false;
@@ -89,8 +80,7 @@ namespace ReservaButacas
             return true;
         }
 
-        public static bool CancelarReserva(List<Butaca> butacas,
-                                           char fila, int numero)
+        public static bool CancelarReserva(List<Butaca> butacas, char fila, int numero)
         {
             Butaca butaca = BuscarButaca(butacas, fila, numero);
 

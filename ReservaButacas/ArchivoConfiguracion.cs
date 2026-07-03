@@ -35,9 +35,7 @@ namespace ReservaButacas
                 double precioVip = double.Parse(campos[3], inv);
                 int filaInicioVip = int.Parse(campos[4]);
 
-                return new Configuracion(cantFilas, asientosPorFila,
-                                         precioNormal, precioVip,
-                                         filaInicioVip);
+                return new Configuracion(cantFilas, asientosPorFila, precioNormal, precioVip, filaInicioVip);
             }
             catch (Exception ex)
             {

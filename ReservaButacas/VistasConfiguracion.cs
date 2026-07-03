@@ -69,10 +69,7 @@ namespace ReservaButacas
             double precioNormal = LeerPrecio("  Precio ticket normal: $");
             Console.WriteLine();
 
-            double precioVip = LeerPrecioVip(
-                "  Precio ticket VIP:    $",
-                precioNormal
-            );
+            double precioVip = LeerPrecioVip("  Precio ticket VIP:    $", precioNormal);
             Console.WriteLine();
 
             int filaInicioVip;
@@ -91,11 +88,7 @@ namespace ReservaButacas
 
             Console.WriteLine();
 
-            Configuracion config = new Configuracion(
-                cantFilas, asientosPorFila,
-                precioNormal, precioVip,
-                filaInicioVip
-            );
+            Configuracion config = new Configuracion(cantFilas, asientosPorFila, precioNormal, precioVip, filaInicioVip);
 
             MostrarResumen(config);
 
@@ -169,10 +162,7 @@ namespace ReservaButacas
         private static bool TryParsePrecio(string entrada, out double valor)
         {
             string normalizada = entrada.Trim().Replace(',', '.');
-            return double.TryParse(normalizada,
-                       System.Globalization.NumberStyles.Any,
-                       System.Globalization.CultureInfo.InvariantCulture,
-                       out valor);
+            return double.TryParse(normalizada, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out valor);
         }
 
         private static double LeerPrecio(string mensaje)
