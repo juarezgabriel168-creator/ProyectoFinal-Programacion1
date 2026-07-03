@@ -6,6 +6,7 @@ namespace ReservaButacas
 {
     static class Vistas
     {
+
         private static char LeerFila(string mensaje, Configuracion config)
         {
             while (true)
@@ -133,6 +134,11 @@ namespace ReservaButacas
             Console.WriteLine("  ── REUBICAR ESPECTADOR ───────────────");
             Console.WriteLine();
 
+            MostrarListaReservas(butacas);
+
+            if (butacas.Count == 0)
+                return;
+
             Console.WriteLine("  Asiento actual:");
             char filaActual = LeerFila("  Fila actual: ", config);
             int numeroActual = LeerNumero("  Número actual: ", config);
@@ -196,8 +202,13 @@ namespace ReservaButacas
             Console.WriteLine("  ── CANCELAR RESERVA ──────────────────");
             Console.WriteLine();
 
-            char fila = LeerFila("  Fila: ", config);
-            int numero = LeerNumero("  Número de asiento: ", config);
+            MostrarListaReservas(butacas);
+
+            if (butacas.Count == 0)
+                return;
+
+            char fila = LeerFila("  Fila del asiento a cancelar: ", config);
+            int numero = LeerNumero("  Número del asiento a cancelar: ", config);
 
             Butaca butaca = ServicioButacas.BuscarButaca(butacas, fila, numero);
 
@@ -331,6 +342,41 @@ namespace ReservaButacas
                                    $"a {config.FilaMaxima}");
             else
                 Console.WriteLine("  Zona VIP          : no configurada");
+        }
+
+        private static void MostrarListaReservas(List<Butaca> butacas)
+        {
+            if (butacas.Count == 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("  No hay reservas registradas.");
+                Console.ResetColor();
+                Console.WriteLine();
+                Console.Write("  Presione una tecla para volver...");
+                Console.ReadKey();
+                return;
+            }
+
+            Console.WriteLine($"  Reservas activas ({butacas.Count}):");
+            Console.WriteLine();
+            Console.WriteLine("  ┌────────┬──────────────────────────────┬──────────┬──────────┐");
+            Console.WriteLine("  │ Asiento│ Espectador                   │ Tipo     │ Precio   │");
+            Console.WriteLine("  ├────────┼──────────────────────────────┼──────────┼──────────┤");
+
+            foreach (Butaca b in butacas)
+            {
+                string asiento = $"{b.Fila}-{b.Numero}".PadRight(6);
+                string nombre = b.NombreEspectador.Length > 28
+                                    ? b.NombreEspectador.Substring(0, 28)
+                                    : b.NombreEspectador.PadRight(28);
+                string tipo = (b.EsVip ? "VIP" : "Normal").PadRight(8);
+                string precio = $"${b.Precio:F2}".PadRight(8);
+
+                Console.WriteLine($"  │ {asiento} │ {nombre} │ {tipo} │ {precio} │");
+            }
+
+            Console.WriteLine("  └────────┴──────────────────────────────┴──────────┴──────────┘");
+            Console.WriteLine();
         }
 
         private static void MostrarZonas(Configuracion config)

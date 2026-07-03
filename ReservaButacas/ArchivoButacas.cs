@@ -37,8 +37,9 @@ namespace ReservaButacas
                     char fila = char.Parse(campos[0]);
                     int numero = int.Parse(campos[1]);
                     string nombre = campos[2];
-                    double precio = double.Parse(campos[3]);
-                    bool esVip = bool.Parse(campos[4]);
+                    double precio = double.Parse(campos[3],
+                                       System.Globalization.CultureInfo.InvariantCulture);
+                    bool esVip = bool.Parse(campos[4].Trim().ToLower());
 
                     butacas.Add(new Butaca(fila, numero, nombre, precio, esVip));
                 }

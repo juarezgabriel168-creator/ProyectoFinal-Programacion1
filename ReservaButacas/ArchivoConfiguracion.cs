@@ -28,10 +28,11 @@ namespace ReservaButacas
                 if (campos.Length != 5)
                     return null;
 
+                var inv = System.Globalization.CultureInfo.InvariantCulture;
                 int cantFilas = int.Parse(campos[0]);
                 int asientosPorFila = int.Parse(campos[1]);
-                double precioNormal = double.Parse(campos[2]);
-                double precioVip = double.Parse(campos[3]);
+                double precioNormal = double.Parse(campos[2], inv);
+                double precioVip = double.Parse(campos[3], inv);
                 int filaInicioVip = int.Parse(campos[4]);
 
                 return new Configuracion(cantFilas, asientosPorFila,

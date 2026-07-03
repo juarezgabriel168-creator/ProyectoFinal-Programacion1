@@ -26,8 +26,10 @@ namespace ReservaButacas
 
         public override string ToString()
         {
+            string precio = Precio.ToString("F2",
+                System.Globalization.CultureInfo.InvariantCulture);
             return $"{Fila},{Numero},{NombreEspectador}," +
-                   $"{Precio.ToString("F2")},{EsVip.ToString().ToLower()}";
+                   $"{precio},{EsVip.ToString().ToLower()}";
         }
     }
 }

@@ -6,34 +6,23 @@ using System.Threading.Tasks;
 
 namespace ReservaButacas
 {
-   static class VistaConfiguracion
+    static class VistaConfiguracion
     {
         public static Configuracion ObtenerConfiguracion()
         {
             Configuracion existente = ArchivoConfiguracion.CargarConfiguracion();
- 
+
+            if (existente != null)
+                return existente;
+
             Console.Clear();
             MostrarEncabezado();
- 
-            if (existente != null)
-            {
-                MostrarConfiguracionActual(existente);
-                Console.WriteLine();
-                Console.Write("  ¿Desea modificar la configuración? (S/N): ");
-                string respuesta = Console.ReadLine().Trim().ToUpper();
- 
-                if (respuesta != "S")
-                    return existente;
-            }
-            else
-            {
-                Console.WriteLine("  Primera ejecución. Configure el sistema antes de continuar.");
-                Console.WriteLine();
-            }
- 
+            Console.WriteLine("  Primera ejecución. Configure el sistema antes de continuar.");
+            Console.WriteLine();
+
             return PedirConfiguracion();
         }
- 
+
         private static void MostrarEncabezado()
         {
             Console.WriteLine("╔══════════════════════════════════════╗");
@@ -63,7 +52,7 @@ namespace ReservaButacas
                 Constantes.FILAS_MINIMAS,
                 Constantes.FILAS_MAXIMAS
             );
- 
+
             char filaMax = (char)('A' + cantFilas - 1);
             Console.WriteLine($"  → La sala tendrá filas de A a {filaMax}.");
             Console.WriteLine();
@@ -73,7 +62,7 @@ namespace ReservaButacas
                 Constantes.ASIENTOS_MINIMOS,
                 Constantes.ASIENTOS_MAXIMOS
             );
- 
+
             Console.WriteLine($"  → Total de asientos: {cantFilas * asientosPorFila}.");
             Console.WriteLine();
 
@@ -89,7 +78,7 @@ namespace ReservaButacas
             int filaInicioVip;
             if (cantFilas == 1)
             {
-                filaInicioVip = cantFilas;
+                filaInicioVip = cantFilas; 
                 Console.WriteLine("  → Con una sola fila, todos los asientos serán normales.");
             }
             else
@@ -99,20 +88,20 @@ namespace ReservaButacas
                 Console.WriteLine($"  → Filas normales: A a {(char)('A' + filaInicioVip - 1)}.");
                 Console.WriteLine($"  → Filas VIP:      {filaVipChar} a {filaMax}.");
             }
- 
+
             Console.WriteLine();
- 
+
             Configuracion config = new Configuracion(
                 cantFilas, asientosPorFila,
                 precioNormal, precioVip,
                 filaInicioVip
             );
- 
+
             MostrarResumen(config);
- 
+
             Console.Write("  ¿Confirmar esta configuración? (S/N): ");
             string conf = Console.ReadLine().Trim().ToUpper();
- 
+
             if (conf != "S")
             {
                 Console.WriteLine();
@@ -124,9 +113,9 @@ namespace ReservaButacas
                 MostrarEncabezado();
                 return PedirConfiguracion();
             }
- 
+
             ArchivoConfiguracion.GuardarConfiguracion(config);
- 
+
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("  ✓ Configuración guardada correctamente.");
@@ -134,7 +123,7 @@ namespace ReservaButacas
             Console.WriteLine();
             Console.Write("  Presione una tecla para ingresar al sistema...");
             Console.ReadKey();
- 
+
             return config;
         }
 
@@ -148,17 +137,18 @@ namespace ReservaButacas
             Console.WriteLine($"  │  Total asientos : {config.CantidadFilas * config.AsientosPorFila}".PadRight(42) + "│");
             Console.WriteLine($"  │  Precio normal  : ${config.PrecioNormal:F2}".PadRight(42) + "│");
             Console.WriteLine($"  │  Precio VIP     : ${config.PrecioVip:F2}".PadRight(42) + "│");
- 
+
             if (config.FilaInicioVip >= config.CantidadFilas)
                 Console.WriteLine("  │  Zona VIP       : ninguna (todos normal)".PadRight(42) + "│");
             else
                 Console.WriteLine($"  │  Zona VIP       : {config.FilaInicioVipChar}-{config.FilaMaxima}".PadRight(42) + "│");
- 
+
             Console.WriteLine("  └─────────────────────────────────────┘");
             Console.WriteLine();
         }
 
- 
+
+
         private static int LeerEntero(string mensaje, int min, int max)
         {
             int valor;
@@ -166,16 +156,25 @@ namespace ReservaButacas
             {
                 Console.Write(mensaje);
                 string entrada = Console.ReadLine();
- 
+
                 if (int.TryParse(entrada, out valor) && valor >= min && valor <= max)
                     return valor;
- 
+
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"  ✗ Ingrese un número entre {min} y {max}.");
                 Console.ResetColor();
             }
         }
- 
+
+        private static bool TryParsePrecio(string entrada, out double valor)
+        {
+            string normalizada = entrada.Trim().Replace(',', '.');
+            return double.TryParse(normalizada,
+                       System.Globalization.NumberStyles.Any,
+                       System.Globalization.CultureInfo.InvariantCulture,
+                       out valor);
+        }
+
         private static double LeerPrecio(string mensaje)
         {
             double valor;
@@ -183,16 +182,16 @@ namespace ReservaButacas
             {
                 Console.Write(mensaje);
                 string entrada = Console.ReadLine();
- 
-                if (double.TryParse(entrada, out valor) && valor >= Constantes.PRECIO_MINIMO)
+
+                if (TryParsePrecio(entrada, out valor) && valor >= Constantes.PRECIO_MINIMO)
                     return valor;
- 
+
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"  ✗ Ingrese un precio mayor a cero.");
+                Console.WriteLine("  ✗ Ingrese un precio mayor a cero.");
                 Console.ResetColor();
             }
         }
- 
+
         private static double LeerPrecioVip(string mensaje, double precioNormal)
         {
             double valor;
@@ -200,8 +199,8 @@ namespace ReservaButacas
             {
                 Console.Write(mensaje);
                 string entrada = Console.ReadLine();
- 
-                if (double.TryParse(entrada, out valor) && valor >= Constantes.PRECIO_MINIMO)
+
+                if (TryParsePrecio(entrada, out valor) && valor >= Constantes.PRECIO_MINIMO)
                 {
                     if (valor < precioNormal)
                     {
@@ -215,35 +214,36 @@ namespace ReservaButacas
                     }
                     return valor;
                 }
- 
+
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("  ✗ Ingrese un precio mayor a cero.");
                 Console.ResetColor();
             }
         }
- 
+
         private static int LeerFilaInicioVip(int cantFilas)
         {
+
             char filaMax = (char)('A' + cantFilas - 1);
- 
+
             Console.WriteLine($"  Las filas disponibles son A a {filaMax}.");
             Console.WriteLine("  Indique desde qué fila comienzan los asientos VIP.");
             Console.WriteLine("  (La fila A no puede ser VIP — debe haber al menos una fila normal.)");
- 
+
             while (true)
             {
                 Console.Write($"  Fila inicio VIP (B a {filaMax}): ");
                 string entrada = Console.ReadLine().Trim().ToUpper();
- 
+
                 if (entrada.Length == 1)
                 {
                     char filaChar = entrada[0];
-                    int  indice   = filaChar - 'A';
- 
+                    int indice = filaChar - 'A';
+
                     if (indice >= 1 && indice < cantFilas)
                         return indice;
                 }
- 
+
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"  ✗ Ingrese una letra entre B y {filaMax}.");
                 Console.ResetColor();
