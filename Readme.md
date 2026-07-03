@@ -338,4 +338,4 @@ D,3,María González,2500.00,true
 - Serrano Martin
 - Lobo Joaquin Tomas 
 
-![Final](/imagen/foto.jpg)
+![Final](https://github.com/juarezgabriel168-creator/ProyectoFinal-Programacion1/blob/main/imagen/Foto.jpg?raw=true)
